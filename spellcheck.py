@@ -28,10 +28,12 @@ prompt = 'Enter a word: '
 #O(n^2), but necessary to make lookup time 
 #O(log(n)) for binary search
 def clear_duplicates_and_sort(a_list):
+  '''
   for word in library:
     while (library.count(word) > 1):
       library.remove(word)
-  #a_list.sort()    
+  '''    
+  a_list.sort()    
   return a_list  
 
 #~~~~~~method below finds index of word in dictionary list~~~~~
