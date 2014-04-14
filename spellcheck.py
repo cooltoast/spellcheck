@@ -4,12 +4,19 @@ with open("/usr/share/dict/words") as dictionary:
   library = dictionary.read().lower().splitlines()
 print "Dictionary initialized with length", len(library)
 
-#returns index of x in a_list
+#returns index of x in a_list, assuming a_list is sorted
 def binary_search(a_list, x, lo=0, hi=None):
   hi = hi if hi is not None else len(a_list)    
   pos = bisect_left(a_list,x,lo,hi)          
   return (pos if pos != hi and a_list[pos] == x else -1)
 
+
+def remove_duplicates (library):
+  checked_list = []
+  for word in library:
+    if (word not in checked_list):
+      checked_list.append(word)
+  return checked_list
 
 #checks for duplicates and removes them and replaces all vowels with 'a'
 def duplicates(w, v):
@@ -21,24 +28,23 @@ def duplicates(w, v):
   allNew = re.sub("[aeiou]", "a", noDup)
   return allNew
 
-alphabet = 'abcdefghijklmnopqrstuvwxyz'
-vowels = ('aeiou')
-prompt = 'Enter a word: '
-
 #O(n^2), but necessary to make lookup time 
 #O(log(n)) for binary search
 def clear_duplicates_and_sort(a_list):
-  '''
+  
   for word in library:
-    while (library.count(word) > 1):
+    if (library.count(word) > 1):
       library.remove(word)
-  '''    
+      
   a_list.sort()    
   return a_list  
 
 #~~~~~~method below finds index of word in dictionary list~~~~~
 #~~~~~~work toward spell suggestions~~~~~~~~~~~~~~~~~~~~~
 
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+vowels = ('aeiou')
+prompt = 'Enter a word: '
 
 #no upper case words
 word = raw_input(prompt).lower()
@@ -59,9 +65,12 @@ print "next word: ", library[library.index(word) + 1]
 print "removing duplicates..."
 
 library = clear_duplicates_and_sort(library)
+#library = remove_duplicates(library)
 
 
 print "word appears: ", library.count(word)
+
+index = binary_search(library, word)
 
 print "prev word: ", library[index - 1]
 print "word: ", library[index]
@@ -101,7 +110,7 @@ newWord = duplicates(newWord, "aeiou")
 print newWord
 
 for letter in newWord:
-  if (letter != 'a'):
+  if (letter == 'e' or letter == 'i' or letter == 'o' or letter == 'u'):
     print "duplicates failed"
 
 '''
